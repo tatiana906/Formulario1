@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FORMULARIO</title>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: #f3e5e5;
+      background-image: url(https://th.bing.com/th/id/R.15f8d94b267cebe9812f5974242c6e9d?rik=P8aUDvlOjQqqNA&pid=ImgRaw&r=0);
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+      padding: 40px 0;
+      height: 100vh;
+    }
+
+    .formulario {
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      width: 300px;
+      background-color: #f0f0f0;
+      background-image: url(https://www.solofondos.com/wp-content/uploads/2017/06/d82f7fd4f9c741766d53e766af6bcbbe-copia.jpg);
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+      display: none;
+    }
+
+    h2 {
+      margin-bottom: 15px;
+      color: #000;
+    }
+
+    input, select, button {
+      display: block;
+      width: calc(100% - 20px);
+      margin: 10px auto;
+      padding: 10px;
+      border: none;
+      border-radius: 20px;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    button {
+      background-color: black;
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background-color: #333;
+    }
+
+    .tabla-container {
+      margin-top: 20px;
+      width: 90%;
+      max-width: 1000px;
+      background-color: rgba(255, 255, 255, 0.8);
+      border-radius: 10px;
+      padding: 10px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      border: 1px solid black;
+      padding: 8px;
+      text-align: center;
+    }
+
+    .botones {
+      margin-bottom: 20px;
+    }
+
+    #abrirFormulario {
+      background-color: blue;
+    }
+
+    #limpiarDatos {
+      background-color: red;
+    }
+
+    .sexo-container {
+      display: flex;
+      justify-content: space-around;
+      margin: 10px 0;
+    }
+
+    .mensaje-exito {
+      color: green;
+      font-weight: bold;
+      margin-top: 10px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="botones">
+    <button id="abrirFormulario">Abrir Formulario</button>
+    <button id="limpiarDatos">Limpiar Datos</button>
+  </div>
+
+  <div class="formulario">
+    <h2>REGISTRARSE</h2>
+    <form id="formulario">
+      <input type="text" id="nombres" placeholder="Nombres">
+      <input type="text" id="apellidos" placeholder="Apellidos">
+      <input type="tel" id="telefono" placeholder="Número de teléfono">
+      <select id="tipoDocumento">
+        <option value="">Selecciona una opción...</option>
+        <option value="Cédula de Ciudadanía">Cédula de Ciudadanía</option>
+        <option value="Tarjeta de Identidad">Tarjeta de Identidad</option>
+        <option value="Cédula de Extranjería">Cédula de Extranjería</option>
+        <option value="Registro Civil">Registro Civil</option>
+        <option value="Pasaporte">Pasaporte</option>
+      </select>
+      <input type="text" id="numeroDocumento" placeholder="Número de documento">
+      <input type="email" id="correo" placeholder="Correo electrónico">
+      <input type="date" id="fechaNacimiento">
+      <div class="sexo-container">
+        <label><input type="radio" name="sexo" value="Masculino"> Masculino</label>
+        <label><input type="radio" name="sexo" value="Femenino"> Femenino</label>
+        <label><input type="radio" name="sexo" value="LGTBI"> LGTBI</label>
+        <label><input type="radio" name="sexo" value="Otro"> Otro</label>
+      </div>
+      <button type="submit">ENVIAR</button>
+      <div class="mensaje-exito" id="mensajeExito">Usuario registrado exitosamente.</div>
+    </form>
+  </div>
+
+  <div class="tabla-container">
+    <h2>Usuarios Registrados</h2>
+    <table id="tabla">
+      <thead>
+        <tr>
+          <th>Nombres</th>
+          <th>Apellidos</th>
+          <th>Teléfono</th>
+          <th>Tipo de Documento</th>
+          <th>Número de Documento</th>
+          <th>Correo</th>
+          <th>Fecha de Nacimiento</th>
+          <th>Sexo</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <script>
+    document.getElementById("abrirFormulario").addEventListener("click", function () {
+      document.querySelector(".formulario").style.display = "block";
+    });
+
+    document.getElementById("formulario").addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      const nombres = document.getElementById("nombres").value.trim();
+      const apellidos = document.getElementById("apellidos").value.trim();
+      const telefono = document.getElementById("telefono").value.trim();
+      const tipoDocumento = document.getElementById("tipoDocumento").value;
+      const numeroDocumento = document.getElementById("numeroDocumento").value.trim();
+      const correo = document.getElementById("correo").value.trim();
+      const fechaNacimiento = document.getElementById("fechaNacimiento").value;
+      const sexoInput = document.querySelector('input[name="sexo"]:checked');
+      const sexo = sexoInput ? sexoInput.value : "";
+
+      if (nombres && apellidos && telefono && tipoDocumento && numeroDocumento && correo && fechaNacimiento && sexo) {
+        const tabla = document.getElementById("tabla").getElementsByTagName("tbody")[0];
+        const nuevaFila = tabla.insertRow();
+
+        const datos = [nombres, apellidos, telefono, tipoDocumento, numeroDocumento, correo, fechaNacimiento, sexo];
+
+        datos.forEach(valor => {
+          const celda = nuevaFila.insertCell();
+          celda.textContent = valor;
+        });
+
+        event.target.reset();
+
+        const mensaje = document.getElementById("mensajeExito");
+        mensaje.style.display = "block";
+
+        // OCULTAR FORMULARIO DESPUÉS DE ENVIAR
+        document.querySelector(".formulario").style.display = "none";
+
+        setTimeout(() => {
+          mensaje.style.display = "none";
+        }, 3000);
+      } else {
+        alert("Por favor, completa todos los campos.");
+      }
+    });
+
+    document.getElementById("limpiarDatos").addEventListener("click", function () {
+      document.getElementById("tabla").getElementsByTagName("tbody")[0].innerHTML = "";
+    });
+  </script>
+</body>
+</html>
